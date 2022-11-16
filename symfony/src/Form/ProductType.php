@@ -29,7 +29,12 @@ class ProductType extends AbstractType
                     'Mètre' => 'M',
                     'Heure' => 'H',
                 ]])
-            ->add('tax')
+            ->add('tax', ChoiceType::class, [
+                'choices'  => [
+                    'Taux normal' => 2000,
+                    'Taux intermédiaire' => 1000,
+                    'Taux réduit' => 550,
+                ]])
             ->add('color', ColorType::class, [
                 'data' => "#1E4294"
             ])
