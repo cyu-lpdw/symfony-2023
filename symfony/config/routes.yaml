@@ -1,0 +1,14 @@
+controllers:
+    resource: ../src/Controller/
+    type: annotation
+
+kernel:
+    resource: ../src/Kernel.php
+    type: annotation
+
+#[Route('/{number}/number', requirements: ['number' => '[0-9]'])]
+app_my_number:
+    path: /{number}/number
+    controller: App\Controller\LuckyController::number
+    requirements:
+        number: '[0-9]{0,5}'
