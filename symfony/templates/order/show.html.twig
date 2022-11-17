@@ -28,6 +28,16 @@
                 <td>{{ order.status }}</td>
             </tr>
             <tr>
+                <th>Amount</th>
+                <td>
+                    {% set amount = 0 %}
+                    {% for item in order.items %}
+                        {% set amount = amount + item.amount %}
+                    {% endfor %}
+                    {{ amount / 100 }}
+                </td>
+            </tr>
+            <tr>
                 <th>CreatedAt</th>
                 <td>{{ order.createdAt ? order.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
@@ -49,6 +59,8 @@
                 <td>{{ item.quantity }}</td>
                 <td>{{ (item.amount - item.taxAmount) / 100 }}</td>
                 <td>{{ item.amount / 100 }}</td>
+                <td><a href="{{ path('app_item_show', {'id': item.id}) }}">Show item</a></td>
+                <td>{{ include('item/_delete_form.html.twig') }}</td>
             </tr>
             {% endfor %}
         </tbody>
