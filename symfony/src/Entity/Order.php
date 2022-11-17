@@ -38,10 +38,14 @@ class Order
     #[ORM\OneToMany(mappedBy: 'commande', targetEntity: Item::class, orphanRemoval: true)]
     private Collection $items;
 
+    #[ORM\OneToMany(mappedBy: 'commande', targetEntity: Payment::class, orphanRemoval: true)]
+    private Collection $payments;
+
     function __construct () {
         $this->createdAt = new \DateTimeImmutable();
         $this->status = "IN_PROGRESS";
         $this->items = new ArrayCollection();
+        $this->payments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,6 +149,36 @@ class Order
             // set the owning side to null (unless already changed)
             if ($item->getCommande() === $this) {
                 $item->setCommande(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Payment>
+     */
+    public function getPayments(): Collection
+    {
+        return $this->payments;
+    }
+
+    public function addPayment(Payment $payment): self
+    {
+        if (!$this->payments->contains($payment)) {
+            $this->payments->add($payment);
+            $payment->setCommande($this);
+        }
+
+        return $this;
+    }
+
+    public function removePayment(Payment $payment): self
+    {
+        if ($this->payments->removeElement($payment)) {
+            // set the owning side to null (unless already changed)
+            if ($payment->getCommande() === $this) {
+                $payment->setCommande(null);
             }
         }
 

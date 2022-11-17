@@ -66,11 +66,28 @@
         </tbody>
     </table>
 
+    <h2>Payments</h2>
+
+    <table class="table">
+        <tbody>
+            {% for payment in order.payments %}
+            <tr>
+                <th>{{ payment.id }}</th>
+                <td>{{ payment.amount / 100 }}</td>
+                <td>{{ payment.status }}</td>
+                <td>{{ payment.paymentMethod }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
     <a href="{{ path('app_order_index') }}">back to list</a>
 
     <a href="{{ path('app_order_edit', {'id': order.id}) }}">edit</a>
 
     <a href="{{ path('app_item_new', {'id': order.id}) }}">Create new item</a>
+
+    <a href="{{ path('app_payment_new', {'id': order.id}) }}">Create new payment</a>
 
     {{ include('order/_delete_form.html.twig') }}
 {% endblock %}
