@@ -26,11 +26,11 @@ class PaymentController extends AbstractController
     public function new(Order $order, Request $request, PaymentRepository $paymentRepository): Response
     {
         $payment = new Payment();
+        $payment->setCommande($order);
         $form = $this->createForm(PaymentType::class, $payment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $payment->setCommande($order);
             $paymentRepository->save($payment, true);
 
             return $this->redirectToRoute('app_order_show', ['id' => $order->getId()], Response::HTTP_SEE_OTHER);
@@ -75,6 +75,6 @@ class PaymentController extends AbstractController
             $paymentRepository->remove($payment, true);
         }
 
-        return $this->redirectToRoute('app_payment_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_order_show', [ 'id' => $payment->getCommande()->getId()], Response::HTTP_SEE_OTHER);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PaymentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PaymentRepository::class)]
 class Payment
@@ -13,6 +14,11 @@ class Payment
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Expression(
+        "value <= this.getCommande().getAmount() - this.getCommande().getPaymentsAmount()",
+        message: 'The amount shoud be less than the rest to pay of the order',
+    )]
+    #[Assert\Positive]
     #[ORM\Column]
     private ?int $amount = null;
 

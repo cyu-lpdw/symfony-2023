@@ -15,6 +15,8 @@
                 <th>Uom</th>
                 <th>Tax</th>
                 <th>Color</th>
+                <th>Sales quantity</th>
+                <th>Sales amount</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -23,11 +25,13 @@
             <tr>
                 <td>{{ product.id }}</td>
                 <td>{{ product.name }}</td>
-                <td>{{ product.price }}</td>
+                <td>{{ product.price / 100 }}</td>
                 <td>{{ product.description }}</td>
                 <td>{{ product.uom }}</td>
-                <td>{{ product.tax }}</td>
+                <td>{{ product.tax / 100 }}</td>
                 <td>{{ product.color }}</td>
+                <td>{{ product.totalQuantity }}</td>
+                <td>{{ product.totalAmount / 100 }}</td>
                 <td>
                     <a href="{{ path('app_product_show', {'id': product.id}) }}">show</a>
                     <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>

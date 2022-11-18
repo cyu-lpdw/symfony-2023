@@ -184,4 +184,20 @@ class Order
 
         return $this;
     }
+
+    public function getAmount() {
+        $amount = 0;
+        foreach ($this->getItems() as $item) {
+            $amount += $item->getAmount();
+        }
+        return $amount;
+    }
+
+    public function getPaymentsAmount() {
+        $amount = 0;
+        foreach ($this->getPayments() as $payment) {
+            $amount += $payment->getAmount();
+        }
+        return $amount;
+    }
 }

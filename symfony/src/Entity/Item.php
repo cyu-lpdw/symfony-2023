@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ItemRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
 class Item
@@ -21,6 +22,7 @@ class Item
     #[ORM\JoinColumn(nullable: false)]
     private ?Order $commande = null;
 
+    #[Assert\Positive]
     #[ORM\Column]
     private ?int $quantity = null;
 

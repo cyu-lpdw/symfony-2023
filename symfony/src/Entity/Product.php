@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -16,9 +17,11 @@ class Product
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Assert\Positive]
     #[ORM\Column]
     private ?int $price = null;
 
@@ -147,5 +150,23 @@ class Product
         }
 
         return $this;
+    }
+
+    public function getTotalQuantity(): int
+    {
+        $quantity = 0;
+        foreach ($this->getItems() as $item) {
+            $quantity += $item->getQuantity();
+        }
+        return $quantity;
+    }
+
+    public function getTotalAmount(): int
+    {
+        $amount = 0;
+        foreach ($this->getItems() as $item) {
+            $amount += $item->getAmount();
+        }
+        return $amount;
     }
 }
